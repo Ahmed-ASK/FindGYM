@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find a Gym</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBmMT9GI8RdXl_k_Kqu0_yCpOClfAT3QT8&libraries=places&callback=initMap" async defer></script>
+    <script>
+        function initMap() {
+            var location = { lat: 29.9753, lng: 31.1286 }; // Hadayek Al Ahram Coordinates
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 14,
+                center: location
+            });
+
+            var request = {
+                location: location,
+                radius: '5000',
+                type: ['gym']
+            };
+
+            var service = new google.maps.places.PlacesService(map);
+            service.nearbySearch(request, function(results, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    for (var i = 0; i < results.length; i++) {
+                        var marker = new google.maps.Marker({
+                            position: results[i].geometry.location,
+                            map: map,
+                            title: results[i].name
+                        });
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Find a Gym Near You</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="gyms.html">Find a Gym</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h2>Find a Gym Near Hadayek Al Ahram</h2>
+        <p>Use the map below to find the best gyms near you.</p>
+        <div id="map"></div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Find Your Gym. All rights reserved.</p>
+    </footer>
+</body>
+</html>
